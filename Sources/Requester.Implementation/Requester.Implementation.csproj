@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Requester.Common\Requester.Abstractions.csproj" />
+    <ProjectReference Include="..\Requester.Abstractions\Requester.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

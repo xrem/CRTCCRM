@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{F05050FA-5D6E-44D7-AA76-C64EEE08557F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRTCCRM.Model", "CRTCCRM.Models\CRTCCRM.Model.csproj", "{2D2638B8-C568-46F8-91A3-D6941BD5097E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRTCCRM.Model", "CRTCCRM.Models\CRTCCRM.Model.csproj", "{2D2638B8-C568-46F8-91A3-D6941BD5097E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Requester.Abstractions", "Requester.Common\Requester.Abstractions.csproj", "{97356629-D56F-410A-838F-92F1521648C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Requester.Abstractions", "Requester.Abstractions\Requester.Abstractions.csproj", "{97356629-D56F-410A-838F-92F1521648C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Requester.Implementation", "Requester.Dapper\Requester.Implementation.csproj", "{61BCDE41-60FB-44B1-92A9-05D6CDB37CEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Requester.Implementation", "Requester.Implementation\Requester.Implementation.csproj", "{61BCDE41-60FB-44B1-92A9-05D6CDB37CEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
