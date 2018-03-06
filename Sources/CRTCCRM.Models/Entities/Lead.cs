@@ -14,7 +14,7 @@ namespace CRTCCRM.Model.Entities {
 
         public int SourceId { get; set; }
 
-        public int AssignedEmployeeId { get; set; }
+        public int? AssignedEmployeeId { get; set; }
 
         public int LanguageId { get; set; }
 

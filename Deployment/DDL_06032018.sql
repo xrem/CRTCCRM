@@ -136,7 +136,7 @@ CREATE TABLE [dbo].[Lead](
 	[TypeId] [int] NOT NULL,
 	[CategoryId] [int] NOT NULL,
 	[SourceId] [int] NOT NULL,
-	[AssignedEmployeeId] [int] NOT NULL,
+	[AssignedEmployeeId] [int] NULL,
 	[LanguageId] [int] NOT NULL,
 	[CallbackDate] [datetime] NULL,
 	[RejectionReasonId] [int] NULL,
