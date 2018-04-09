@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Semantic UI</title>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	</head>
+	<body>
+		<div class="ui menu">
+			<div class="ui container">
+				<div class="left menu">
+					<a href="index.html">
+						<div class="ui borderless item" >
+							<i class="tachometer alternate icon"></i>
+							Dashboard
+						</div>
+					</a>
+				</div>
+				<div class="right menu">
+					<div class="ui borderless simple dropdown item">
+						<i class="icon user"></i>
+						%username%
+						<i class="dropdown icon"></i>
+						<div class="menu">
+							<a class="item" href="#">Whatever</a>
+							<a class="item" href="#">Settings</a>
+							<a class="item" href="#">Log out</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="ui text container">
+			<form class="ui form">
+				<form class="ui large form">
+				<div class="field">
+					<label>Lead title</label>
+					<input type="text" name="Lead title" value="Russian company">
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Language</label>
+						<input type="text" name="Language" value="Russian">
+					</div>
+					<div class="field">
+						<label>Source of coming</label>
+						<input type="text" name="Source of coming" value="Invited">
+					</div>
+				</div>
+				
+				<div class="three fields">
+					<div class="field">
+						<label>Type of lead</label>
+						<input type="text" name="Type of lead" value="Gold">
+					</div>
+					<div class="field">
+						<label>Lead category</label>
+						<input type="text" name="Lead category" value="Gold">
+					</div>
+					<div class="field">
+						<label>Lead status</label>
+						<input type="text" name="Lead status" value="Gold">
+					</div>
+				</div>
+				<div class="field">
+					<label>Assign employee</label>
+					<input type="text" name="Assign employee" value="Nastya">
+				</div>
+				<div class="field">
+					<label>Callback</label>
+					<div class="ui slider checkbox" style="padding-top: 8px" id="kekasCallbackCheckbox">
+						<input type="checkbox" name="callback" class="hidden" checked="checked">
+					</div>
+				</div>
+				<div class="field" id="datepicker-cont">
+					<label>Callback date</label>
+					<input type="text" id="datepicker" value="04/12/2018">
+				</div>
+			</form>
+		</div>
+		<div class="ui text container" style="padding-top: 22px">
+			<a href="viewLead.html">
+				<div class="ui huge right floated black basic button">
+					Save
+				</div>
+			</a>
+		</div>
+		<script type="text/javascript">
+			$('.ui.checkbox').checkbox();
+			$( function() {
+				$("#datepicker").datepicker({
+					showButtonPanel: true
+				});
+			});
+		</script>
+	</body>
+</html>

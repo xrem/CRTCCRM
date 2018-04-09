@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Semantic UI</title>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	</head>
+	<body>
+		<div class="ui menu">
+			<div class="ui container">
+				<div class="left menu">
+					<a href="index.html">
+						<div class="ui borderless item" >
+							<i class="tachometer alternate icon"></i>
+							Dashboard
+						</div>
+					</a>
+				</div>
+				<div class="right menu">
+					<div class="ui borderless simple dropdown item">
+						<i class="icon user"></i>
+						%username%
+						<i class="dropdown icon"></i>
+						<div class="menu">
+							<a class="item" href="#">Whatever</a>
+							<a class="item" href="#">Settings</a>
+							<a class="item" href="#">Log out</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="ui text container">
+			<form class="ui large form">
+				<div class="field">
+					<label>Lead title</label>
+					<input type="text" name="Lead title" placeholder="Lead title">
+				</div>
+				<div class="two fields">
+					<div class="field">
+						<label>Language</label>
+						<div class="ui fluid search dropdown selection">
+							<i class="dropdown icon"></i>
+							<input class="search" autocomplete="off">
+							<div class="default text">None</div>
+							<div class="menu">
+								<div class="item" data-value="none">None</div>
+								<div class="item" data-value="English">English</div>
+							</div>
+						</div>
+					</div>
+					<div class="field">
+						<label>Source of coming</label>
+						<input type="text" name="Source of coming" placeholder="Source of coming">
+					</div>
+				</div>
+				<div class="three fields">
+					<div class="field">
+						<label>Type of lead</label>
+						<div class="ui fluid search dropdown selection">
+							<i class="dropdown icon"></i>
+							<input class="search" autocomplete="off">
+							<div class="default text">None</div>
+							<div class="menu">
+								<div class="item" data-value="none">None</div>
+							</div>
+						</div>
+					</div>
+					<div class="field">
+						<label>Lead category</label>
+						<div class="ui fluid search dropdown selection">
+							<i class="dropdown icon"></i>
+							<input class="search" autocomplete="off">
+							<div class="default text">None</div>
+							<div class="menu">
+								<div class="item" data-value="none">None</div>
+							</div>
+						</div>
+					</div>
+					<div class="field">
+						<label>Lead status</label>
+						<div class="ui fluid search dropdown selection">
+							<i class="dropdown icon"></i>
+							<input class="search" autocomplete="off">
+							<div class="default text">None</div>
+							<div class="menu">
+								<div class="item" data-value="none">None</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="field">
+					<label>Assign employee</label>
+					<div class="ui fluid search dropdown selection">
+						<i class="dropdown icon"></i>
+						<input class="search" autocomplete="off">
+						<div class="default text">None</div>
+						<div class="menu">
+							<div class="item" data-value="none">None</div>
+							<div class="item" data-value="andrew">Andrew</div>
+						</div>
+					</div>
+				</div>
+				<div class="field">
+					<label>Callback</label>
+					<div class="ui slider checkbox" style="padding-top: 8px" id="kekasCallbackCheckbox">
+						<input type="checkbox" name="callback" class="hidden">
+					</div>
+				</div>
+				<div class="field" style="display: none" id="datepicker-cont">
+					<label>Callback date</label>
+					<input type="text" id="datepicker">
+				</div>
+			</form>
+		</div>
+		<div class="ui center aligned text container" style="padding-top: 25px">
+			<a href="contacts.html">
+				<div class="ui huge left black basic button">
+					Create lead and manage contacts
+				</div>
+			</a>
+		</div>
+		<script type="text/javascript">
+			$('.ui.dropdown').dropdown();
+			$('.ui.checkbox').checkbox('setting', 'onChange', function () {
+				var $el = $("#datepicker-cont");
+				$el.transition('fly right');
+				/*if ($("#kekasCallbackCheckbox").hasClass('checked')) {
+					$el.show();
+				} else {
+					$el.hide();
+				}*/
+			});
+			$( function() {
+				$("#datepicker").datepicker({
+					showButtonPanel: true
+				});
+			});
+			//$('.ui.checkbox')
+		</script>
+	</body>
+</html>
