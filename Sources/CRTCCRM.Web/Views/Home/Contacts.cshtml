@@ -1,0 +1,210 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Contacts</title>
+    <link rel="stylesheet" type="text/css" href="/Styles/semantic.min.css">
+    <script src="/Scripts/jquery.min.js"></script>
+    <script src="/Scripts/hbs.js"></script>
+    <script src="/Scripts/semantic.min.js"></script>
+</head>
+<body>
+    <div class="ui menu">
+        <div class="ui container">
+            <div class="left menu">
+                <a href="/">
+                    <div class="ui borderless item">
+                        <i class="tachometer alternate icon"></i>
+                        Dashboard
+                    </div>
+                </a>
+            </div>
+            <div class="right menu">
+                <div class="ui borderless simple dropdown item">
+                    <i class="icon user"></i>
+                    %username%
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a class="item" href="#">Whatever</a>
+                        <a class="item" href="#">Settings</a>
+                        <a class="item" href="#">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui text container" style="margin-top: 50px;">
+        <form class="ui form">
+            <div class="three fields">
+                <div class="field">
+                    <label>Type of contact</label>
+                    <div class="ui fluid search dropdown selection">
+                        <i class="dropdown icon"></i>
+                        <input class="search" autocomplete="off">
+                        <div class="text">E-Mail</div>
+                        <div class="menu">
+                            <div class="item" data-value="E-Mail">E-Mail</div>
+                            <div class="item" data-value="Work Phone">Work Phone</div>
+                            <div class="item" data-value="Home Phone">Home Phone</div>
+                            <div class="item" data-value="Address">Address</div>
+                            <div class="item" data-value="Web-Site">Web-Site</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field inp1">
+                    <label>Contact person</label>
+                    <input type="text" name="person" placeholder="Person full name">
+                </div>
+                <div class="field inp2">
+                    <label id="contact-data">E-Mail</label>
+                    <input type="text" name="contactdata" placeholder="E-Mail">
+                </div>
+            </div>
+            <div class="ui error message"></div>
+            <div class="ui right floated black basic add button submit" id="create-btn">
+                Add new contact
+            </div>
+        </form>
+    </div>
+    <div class="ui container" style="margin-top: 92px;">
+        <div class="ui grid three column">
+            <div class="ui centered aligned ten wide column">
+                <div class="ui middle aligned divided list" id="contact-list">
+                    <div class="item">
+                        <div class="right floated content">
+                            <div class="ui negative button delete-button" onclick="deleteListElement(this)">Delete</div>
+                        </div>
+                        <i class="big at icon" style="width: 40px !important"></i>
+                        <div class="content">
+                            Lena / filler@mail.com
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="right floated content">
+                            <div class="ui negative button delete-button" onclick="deleteListElement(this)">Delete</div>
+                        </div>
+                        <i class="big at icon" style="width: 40px !important"></i>
+                        <div class="content">
+                            Mark / filler@mail.com
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="right floated content">
+                            <div class="ui negative button delete-button" onclick="deleteListElement(this)">Delete</div>
+                        </div>
+                        <i class="big at icon" style="width: 40px !important"></i>
+                        <div class="content">
+                            Molly / filler@mail.com
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui center aligned text container" style="padding-top: 25px">
+        <a href="/leads">
+            <div class="ui huge left black basic button">
+                Done
+            </div>
+        </a>
+    </div>
+
+    <div class="ui page dimmer">
+        <div class="content">
+            <h2 class="ui inverted header">Are you sure?</h2>
+            <div class="ui positive button">Yes</div>
+            <div class="ui button">Cancel</div>
+        </div>
+    </div>
+
+    <div class="ui custom popup n1">
+        1
+    </div>
+    <div class="ui custom popup n2">
+        2
+    </div>
+
+    <script id="list-element-template" type="text/x-handlebars-template">
+        <div class="item">
+            <div class="right floated content">
+                <div class="ui negative button delete-button" onclick="deleteListElement(this)">Delete</div>
+            </div>
+            <i class="big {{img}} icon" style="width: 40px !important"></i>
+            <div class="content">
+                {{name}} / {{cdata}}
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript">
+            var source   = document.getElementById("list-element-template").innerHTML;
+            var template = Handlebars.compile(source);
+            $('.ui.dropdown').dropdown('setting', 'onChange', function (e) {
+                $("#contact-data")[0].innerText = e;
+                $("#contact-data").siblings("input").prop("placeholder", e);
+            });
+            window.delEl = null;
+            window.confirmation = false;
+            var deleteListElement = function(el) {
+                //if
+                delEl = $(el).parent().parent();
+                confirmation = false
+                $(".ui.dimmer").dimmer('setting', {
+                    onShow: function() { console.log('show'); },
+                    onHide: function() { console.log('hide'); }
+                }).dimmer('show');
+            };
+            var getAwesomeIconByType = function(type) {
+                switch(type) {
+                    case 'E-Mail':
+                        return 'at';
+                    case 'Work Phone':
+                        return 'fax';
+                    case 'Home Phone':
+                        return 'mobile alternate';
+                    case 'Address':
+                        return 'home';
+                    case 'Web-Site':
+                        return 'internet explorer';
+                }
+            }
+            $("#create-btn").click(function() {
+                $('.ui.form').form({
+                    fields: {
+                        person: {
+                            identifier: 'person',
+                            rules: [{
+                                type : 'empty',
+                                prompt: 'Please enter person'
+                            }]
+                        },
+                        contactdata: {
+                            identifier: 'contactdata',
+                            rules: [{
+                                type : 'empty',
+                                prompt: 'Please enter contact'
+                            }]
+                        }
+                    },
+                    onSuccess: function() {
+                        var img = getAwesomeIconByType($('.ui.search.selection .text')[0].innerText);
+                        var nameEl = $("input[name='person']");
+                        var cdataEl = $("input[name='contactdata']");
+                        $("#contact-list").append(template({
+                            name: nameEl.val(),
+                            img: img,
+                            cdata: cdataEl.val()
+                        }));
+                        nameEl.val("");
+                        cdataEl.val("");
+                        return false;
+                    }
+                });
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>View Lead</title>
+    <link rel="stylesheet" type="text/css" href="/Styles/semantic.min.css">
+    <script src="/Scripts/jquery.min.js"></script>
+    <script src="/Scripts/semantic.min.js"></script>
+    <link rel="stylesheet" href="/Styles/jquery-ui.css">
+    <script src="/Scripts/jquery-ui.js"></script>
+</head>
+<body>
+    <div class="ui menu">
+        <div class="ui container">
+            <div class="left menu">
+                <a href="/">
+                    <div class="ui borderless item">
+                        <i class="tachometer alternate icon"></i>
+                        Dashboard
+                    </div>
+                </a>
+            </div>
+            <div class="right menu">
+                <div class="ui borderless simple dropdown item">
+                    <i class="icon user"></i>
+                    %username%
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                        <a class="item" href="#">Whatever</a>
+                        <a class="item" href="#">Settings</a>
+                        <a class="item" href="#">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ui text container">
+        <form class="ui form">
+            <form class="ui large form">
+                <div class="field">
+                    <label>Lead title</label>
+                    <input type="text" name="Lead title" value="Russian company" disabled="">
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>Language</label>
+                        <input type="text" name="Language" value="Russian" disabled="">
+                    </div>
+                    <div class="field">
+                        <label>Source of coming</label>
+                        <input type="text" name="Source of coming" value="Invited" disabled="">
+                    </div>
+                </div>
+
+                <div class="three fields">
+                    <div class="field">
+                        <label>Type of lead</label>
+                        <input type="text" name="Type of lead" value="Gold" disabled="">
+                    </div>
+                    <div class="field">
+                        <label>Lead category</label>
+                        <input type="text" name="Lead category" value="Gold" disabled="">
+                    </div>
+                    <div class="field">
+                        <label>Lead status</label>
+                        <input type="text" name="Lead status" value="Gold" disabled="">
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Assign employee</label>
+                    <input type="text" name="Assign employee" value="Nastya" disabled="">
+                </div>
+                <div class="field">
+                    <label>Callback</label>
+                    <div class="ui slider checkbox" style="padding-top: 8px" id="kekasCallbackCheckbox">
+                        <input type="checkbox" name="callback" class="hidden" checked="checked" disabled="">
+                    </div>
+                </div>
+                <div class="field" id="datepicker-cont">
+                    <label>Callback date</label>
+                    <input type="text" id="datepicker" value="04/12/2018" disabled="">
+                </div>
+            </form>
+    </div>
+    <div class="ui text container" style="padding-top: 22px">
+        <a href="/leads">
+            <div class="ui huge right floated black basic button">
+                Done
+            </div>
+        </a>
+        <a href="/editLead">
+            <div class="ui huge left floated black basic button">
+                Edit
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+            $('.ui.checkbox').checkbox();
+            $( function() {
+                $("#datepicker").datepicker({
+                    showButtonPanel: true
+                });
+            });
+    </script>
+</body>
+</html>
