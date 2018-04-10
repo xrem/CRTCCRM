@@ -14,16 +14,21 @@
 
 \Deployment - Скрипты для разворачивания инфраструктуры уровня БД и приложения.  
 \Documentation - Печатные материалы использованные в ходе разработки КИС  
-\Sources - Исходные коды разработанной КИС.  
+\Sources - Исходные коды разработанной КИС.
 
 ### Технические требования
 
-TBA.
+Windows Host with configured IIS  
+SealReports  
+Microsoft SQL Server  
 
 ### Стек использованных технологий
 
 TBA.
 
+* [Semantic UI](https://semantic-ui.com/) - Core frontend UI
+* [JQuery UI](https://jqueryui.com/) - Additional frontend UI elements
+* [JQuery](https://jquery.com/) - Frontend automatization/UX.
 * [Dillinger](http://dillinger.io) - Online Markdown Editor
 
 License
