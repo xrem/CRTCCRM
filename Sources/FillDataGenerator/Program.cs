@@ -9,7 +9,8 @@ using System.Linq;
 namespace FillDataGenerator {
     static class Program {
 
-        public static readonly DateTime GenerationStartTime = new DateTime(2017, 5, 13);
+        private static readonly DateTime GenerationStartTime = new DateTime(2017, 5, 13);
+        private static readonly Faker Faker = new Faker();
 
         public static void Main(string[] args) {
             Console.WriteLine("Started.");
@@ -17,15 +18,47 @@ namespace FillDataGenerator {
             var requester = DapperRequester.Create(iDbCredentials.ConnectionString);
             requester.Query("ConnectionTest", "select 1");
             Console.WriteLine("Connection: OK");
-            var faker = new Faker();
-            SpawnEmployees(requester, faker);
+            SpawnEmployees(requester);
             FillEmployeesCategories(requester);
-            SpawnLeads(requester, faker);
+            SpawnLeads(requester);
 
             Console.ReadLine();
         }
 
-        private static void SpawnLeads(DapperRequester requester, Faker faker) {
+        private static void GenerateCompanyHistory(Lead lead) {
+
+        }
+
+        private static void GenerateSinglePeopleHistory(Lead lead) {
+
+        }
+
+        private static void FillCompanyContacts(Lead lead, List<ContactType> contactTypes) {
+
+        }
+
+        private static void FillPeopleContacts(DapperRequester requester, Lead lead, List<ContactType> contactTypes, Person personContext) {
+            var addrTypeId = contactTypes.Single(x => x.Type == "Адрес").Id;
+            var emailTypeId = contactTypes.Single(x => x.Type == "Email").Id;
+            var phoneTypeId = contactTypes.Single(x => x.Type == "Домашний телефон").Id;
+            var addr = personContext.Address;
+            var dict = new Dictionary<int,string>() {
+                { addrTypeId, $"{addr.City}, {addr.Street}, {addr.Suite}" },
+                { emailTypeId, personContext.Email },
+                { phoneTypeId, personContext.Phone },
+            };
+            foreach (var v in dict) {
+                requester.Insert(new Contact {
+                    ContactData = v.Value,
+                    ContactPerson = personContext.FullName,
+                    ContactTypeId = v.Key,
+                    LeadId = lead.Id,
+                    Deleted = false
+                });
+            }
+        }
+
+        private static void SpawnLeads(DapperRequester requester) {
             Console.Write("Preparting data for lead generation...");
             var enabledContactLanguages = requester.GetAll<Language>().Where(x => x.Enabled).ToList();
             var categories = requester.GetAll<LeadCategory>().Where(x => !x.Deleted).ToList();
@@ -38,9 +71,10 @@ namespace FillDataGenerator {
             var leadTypes = requester.GetAll<LeadType>();
             var leadTypesForPeoples = leadTypes.Where(x => x.Type == "Розничный клиент").ToList();
             var leadTypesForCompanies = leadTypes.Except(leadTypesForPeoples).ToList();
+            var contactTypes = requester.GetAll<ContactType>().Where(x => !x.Deleted).ToList();
             Console.WriteLine("OK");
             while (currentDateTime < DateTime.Now.AddDays(-2)) {
-                bool isCompany = faker.Random.Bool();
+                bool isCompany = Faker.Random.Bool();
                 var lang = enabledContactLanguages.PickRandom();
                 var person = new Person(lang.CultureName.Substring(0, 2));
                 var lead = new Lead {
@@ -48,16 +82,24 @@ namespace FillDataGenerator {
                     StatusId = initalLeadStatusId,
                     WorkStatusId = initalWorkStatusId,
                     CategoryId = categories.PickRandom().Id,
-                    Title = isCompany ? faker.Company.CompanyName() : person.FullName,
+                    Title = isCompany ? Faker.Company.CompanyName() : person.FullName,
                     LanguageId = lang.Id,
                     CreationDate = currentDateTime,
                     TypeId = (isCompany ? leadTypesForCompanies : leadTypesForPeoples).PickRandom().Id
                 };
                 requester.Insert(lead);
+                lead = requester.Query<Lead>("GetLastInsertedLead", "SELECT TOP 1 * FROM [Lead] ORDER BY Id DESC").Single();
+                if (isCompany) {
+                    FillCompanyContacts(lead, contactTypes);
+                    GenerateCompanyHistory(lead);
+                } else {
+                    FillPeopleContacts(requester, lead, contactTypes, person);
+                    GenerateSinglePeopleHistory(lead);
+                }
                 currentDateTime = currentDateTime
-                    .AddDays(faker.Random.Int(0, 2))
-                    .AddHours(faker.Random.Int(0, 23))
-                    .AddMinutes(faker.Random.Int(10, 55));
+                    .AddDays(Faker.Random.Int(0, 2))
+                    .AddHours(Faker.Random.Int(0, 23))
+                    .AddMinutes(Faker.Random.Int(10, 55));
             }
         }
 
@@ -72,15 +114,15 @@ namespace FillDataGenerator {
             }
         }
 
-        private static void SpawnEmployees(DapperRequester requester, Faker faker) {
+        private static void SpawnEmployees(DapperRequester requester) {
             var positions = requester.Query<EmployeePosition>("GetPositions", "SELECT * FROM [EmployeePosition]").ToList();
             var chefPositionId = positions.Single(x => x.Position == "Руководитель").Id;
-            var managerPositionId = positions.Single(x => x.Position == "Менеджер").Id;            
+            var managerPositionId = positions.Single(x => x.Position == "Менеджер").Id;
             var chefAccountWithPassword = new List<string>();
-            Console.Write($"Adding some chefs...");
+            Console.Write("Adding some chefs...");
             for (var i = 1; i <= 10; i++) {
                 var personContext = new Person();
-                var rawPassword = faker.Internet.Password(new Randomizer().Int(6, 20));
+                var rawPassword = Faker.Internet.Password(new Randomizer().Int(6, 20));
                 var chef = new Employee {
                     Name = personContext.FirstName,
                     Login = personContext.UserName,
@@ -94,14 +136,14 @@ namespace FillDataGenerator {
 
             var chefsIds = requester.GetAll<Employee>().Where(x => x.PositionId == chefPositionId).Select(x => x.Id).ToList();
             Console.WriteLine(" OK");
-            Console.Write($"Adding some managers...");
+            Console.Write("Adding some managers...");
             var managerAccountWithPassword = new List<string>();
             var managers = new List<Employee>();
             foreach (var chefId in chefsIds) {
                 var randomCountOfManagersToAdd = new Randomizer().Int(1, 5);
                 for (var i = 0; i < randomCountOfManagersToAdd; i++) {
                     var personContext = new Person();
-                    var rawPassword = faker.Internet.Password(new Randomizer().Int(6, 20));
+                    var rawPassword = Faker.Internet.Password(new Randomizer().Int(6, 20));
                     var employee = new Employee {
                         Name = personContext.FirstName,
                         Login = personContext.UserName,

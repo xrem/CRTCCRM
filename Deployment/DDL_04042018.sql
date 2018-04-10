@@ -723,7 +723,7 @@ INSERT [dbo].[ContactType] ([Id], [Type], [Deleted]) VALUES (1, N'Домашни
 INSERT [dbo].[ContactType] ([Id], [Type], [Deleted]) VALUES (2, N'Рабочий телефон', 0)
 INSERT [dbo].[ContactType] ([Id], [Type], [Deleted]) VALUES (3, N'Email', 0)
 INSERT [dbo].[ContactType] ([Id], [Type], [Deleted]) VALUES (4, N'Web-сайт', 0)
-INSERT [dbo].[ContactType] ([Id], [Type], [Deleted]) VALUES (5, N'Адрес', 1)
+INSERT [dbo].[ContactType] ([Id], [Type], [Deleted]) VALUES (5, N'Адрес', 0)
 SET IDENTITY_INSERT [dbo].[ContactType] OFF
 GO
 
