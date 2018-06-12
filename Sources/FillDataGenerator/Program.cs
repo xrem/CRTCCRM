@@ -15,14 +15,17 @@ namespace FillDataGenerator {
         public static void Main(string[] args) {
             Console.WriteLine("Started.");
             var iDbCredentials = ConfigurationManager.ConnectionStrings["InternalDatabase"];
-            var requester = DapperRequester.Create(iDbCredentials.ConnectionString);
+            var cstring = iDbCredentials.ConnectionString;
+            if (args.Any()) {
+                var dbPrefix = args.First();
+                cstring = cstring.Replace("Initial Catalog=", $"Initial Catalog={dbPrefix}_");
+            }
+            var requester = DapperRequester.Create(cstring);
             requester.Query("ConnectionTest", "select 1");
             Console.WriteLine("Connection: OK");
             SpawnEmployees(requester);
             FillEmployeesCategories(requester);
             SpawnLeads(requester);
-
-            Console.ReadLine();
         }
 
         private static void GenerateCompanyHistory(Lead lead) {

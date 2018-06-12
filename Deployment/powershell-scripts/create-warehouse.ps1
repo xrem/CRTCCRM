@@ -3,8 +3,7 @@ param(
     [string] $command,
     [string] $server = '.',
     [string] $login,
-    [string] $password,
-	[string] $dontfillData
+    [string] $password
 )
 
 #[VALIDATION]
@@ -18,8 +17,7 @@ $scriptDir = split-path -parent $MyInvocation.MyCommand.Definition
 . ($scriptDir + '\sql-utils.ps1')
 
 #[CONFIGURATION]
-$createDbFileNameBase = "DDL_04042018.sql"
-$fillDataDbFileNameBase = "FillDebugData.sql"
+$dataWarehouseDbFileNameBase = "Data_Warehouse.sql"
 
 #[Resources]
 $checkDBExistsQuery = @"
@@ -43,10 +41,5 @@ function ExecuteScalarQuery {
     return Sql-Execute-Scalar -server $server -login $login -password $password -database $database -scalarQuery $query 
 }
 
-$createDbScript = Get-ChildItem -name -include ($createDbFileNameBase)
-Execute -path $createDbScript
-
-if ([string]::IsNullOrEmpty($dontfillData)) {
-	$fillDataScript = Get-ChildItem -name -include ($fillDataDbFileNameBase)
-	Execute -path $fillDataScript   
-}
+$dataWarehouseScript = Get-ChildItem -name -include ($dataWarehouseDbFileNameBase)
+Execute -path $dataWarehouseScript
