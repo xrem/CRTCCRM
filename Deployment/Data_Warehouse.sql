@@ -505,8 +505,186 @@ BEGIN
 	SELECT [Id],[EmployeeId],[StartDate],[EndDate],[Deleted],N''{DBNAME}'' AS [ImportedFromInstance],[Approved],[ApprovedDate],[ApprovedBy]
 	FROM [{DBNAME}].[dbo].[UnavailabilityCalendar]
 	'
+	
+
 	SET @SQL_SCRIPT = REPLACE(@TEMPLATE, '{DBNAME}', @currentInstanceName)
 	SET @SQL_SCRIPT = REPLACE(@SQL_SCRIPT, '{WAREHOUSE}', (SELECT TOP 1 TABLE_CATALOG FROM INFORMATION_SCHEMA.COLUMNS))
+	EXECUTE (@SQL_SCRIPT)
+END
+GO
+
+CREATE PROCEDURE [dbo].[RestoreInstanceData] 
+	@restoreTarget nvarchar(max),
+	@instaceImportedFrom nvarchar(max)
+AS
+BEGIN
+	SET NOCOUNT ON
+	DECLARE @TEMPLATE NVARCHAR(MAX)
+	DECLARE @SQL_SCRIPT NVARCHAR(MAX)
+	SET @TEMPLATE = N'
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[AssigneHistoryItem] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[AssigneHistoryItem]
+	([Id],[EmployeeId],[LeadId],[OperationDate],[IsAssigned],[Deleted])
+	SELECT [Id],[EmployeeId],[LeadId],[OperationDate],[IsAssigned],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[AssigneHistoryItem]
+	WHERE [{WAREHOUSE}].[dbo].[AssigneHistoryItem].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[AssigneHistoryItem] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[ContactType] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[ContactType]
+	([Id],[Type],[Deleted])
+	SELECT [Id],[Type],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[ContactType]
+	WHERE [{WAREHOUSE}].[dbo].[ContactType].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[ContactType] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[EmployeePosition] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[EmployeePosition]
+	([Id],[Position],[Deleted])
+	SELECT [Id],[Position],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[EmployeePosition]
+	WHERE [{WAREHOUSE}].[dbo].[EmployeePosition].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[EmployeePosition] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Internet] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[Internet]
+	([Id],[Name],[Deleted])
+	SELECT [Id],[Name],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[Internet]
+	WHERE [{WAREHOUSE}].[dbo].[Internet].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Internet] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[KeyPerformanceIndicator] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[KeyPerformanceIndicator]
+	([Id],[Name],[Measure],[Deleted])
+	SELECT [Id],[Name],[Measure],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[KeyPerformanceIndicator]
+	WHERE [{WAREHOUSE}].[dbo].[KeyPerformanceIndicator].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[KeyPerformanceIndicator] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadCategory] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[LeadCategory]
+	([Id],[Name],[Deleted])
+	SELECT [Id],[Name],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[LeadCategory]
+	WHERE [{WAREHOUSE}].[dbo].[LeadCategory].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadCategory] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadPackage] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[LeadPackage]
+	([Id],[PackageId],[LeadId],[Deleted])
+	SELECT [Id],[PackageId],[LeadId],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[LeadPackage]
+	WHERE [{WAREHOUSE}].[dbo].[LeadPackage].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadPackage] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadSource] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[LeadSource]
+	([Id],[Name],[Deleted])
+	SELECT [Id],[Name],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[LeadSource]
+	WHERE [{WAREHOUSE}].[dbo].[LeadSource].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadSource] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadStatus] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[LeadStatus]
+	([Id],[Name],[Deleted])
+	SELECT [Id],[Name],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[LeadStatus]
+	WHERE [{WAREHOUSE}].[dbo].[LeadStatus].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadStatus] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadType] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[LeadType]
+	([Id],[Type],[Deleted])
+	SELECT [Id],[Type],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[LeadType]
+	WHERE [{WAREHOUSE}].[dbo].[LeadType].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadType] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadWorkStatus] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[LeadWorkStatus]
+	([Id],[Name],[Deleted])
+	SELECT [Id],[Name],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[LeadWorkStatus]
+	WHERE [{WAREHOUSE}].[dbo].[LeadWorkStatus].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[LeadWorkStatus] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[RejectionReason] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[RejectionReason]
+	([Id],[Title],[Deleted])
+	SELECT [Id],[Title],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[RejectionReason]
+	WHERE [{WAREHOUSE}].[dbo].[RejectionReason].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[RejectionReason] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Television] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[Television]
+	([Id],[Name],[Deleted])
+	SELECT [Id],[Name],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[Television]
+	WHERE [{WAREHOUSE}].[dbo].[Television].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Television] OFF
+
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[UnavailabilityCalendar] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[UnavailabilityCalendar]
+	([Id],[EmployeeId],[StartDate],[EndDate],[Deleted],[Approved],[ApprovedDate],[ApprovedBy])
+	SELECT [Id],[EmployeeId],[StartDate],[EndDate],[Deleted],[Approved],[ApprovedDate],[ApprovedBy]
+	FROM [{WAREHOUSE}].[dbo].[UnavailabilityCalendar]
+	WHERE [{WAREHOUSE}].[dbo].[UnavailabilityCalendar].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[UnavailabilityCalendar] OFF
+	
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Package] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[Package]
+	([Id],[InternetId],[TelevisionId],[Deleted])
+	SELECT [Id],[InternetId],[TelevisionId],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[Package]
+	WHERE [{WAREHOUSE}].[dbo].[Package].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Package] OFF
+	
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Employee] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[Employee]
+	([Id],[Name],[Surname],[PositionId],[Login],[Password],[ChefId],[Online],[Deleted])
+	SELECT [Id],[Name],[Surname],[PositionId],[Login],[Password],[ChefId],[Online],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[Employee]
+	WHERE [{WAREHOUSE}].[dbo].[Employee].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Employee] OFF
+	
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[AvailableCategories] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[AvailableCategories]
+	([Id],[EmployeeId],[CategoryId],[Deleted])
+	SELECT [Id],[EmployeeId],[CategoryId],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[AvailableCategories]
+	WHERE [{WAREHOUSE}].[dbo].[AvailableCategories].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[AvailableCategories] OFF
+	
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Lead] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[Lead]
+	([Id],[Title],[CreationDate],[TypeId],[CategoryId],[SourceId],[AssignedEmployeeId],[LanguageId],[CallbackDate],[RejectionReasonId],[RejectionDate],[StatusId],[Deleted],[WorkStatusId])
+	SELECT [Id],[Title],[CreationDate],[TypeId],[CategoryId],[SourceId],[AssignedEmployeeId],[LanguageId],[CallbackDate],[RejectionReasonId],[RejectionDate],[StatusId],[Deleted],[WorkStatusId]
+	FROM [{WAREHOUSE}].[dbo].[Lead]
+	WHERE [{WAREHOUSE}].[dbo].[Lead].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Lead] OFF
+	
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Contact] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[Contact]
+	([Id],[LeadId],[ContactTypeId],[ContactPerson],[ContactData],[Deleted])
+	SELECT [Id],[LeadId],[ContactTypeId],[ContactPerson],[ContactData],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[Contact]
+	WHERE [{WAREHOUSE}].[dbo].[Contact].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[Contact] OFF
+	
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[ContactHistoryItem] ON
+	INSERT INTO [{RESTORETARGET}].[dbo].[ContactHistoryItem]
+	([Id],[EmployeeId],[ContactId],[Context],[ContactDate],[Deleted])
+	SELECT [Id],[EmployeeId],[ContactId],[Context],[ContactDate],[Deleted]
+	FROM [{WAREHOUSE}].[dbo].[ContactHistoryItem]
+	WHERE [{WAREHOUSE}].[dbo].[ContactHistoryItem].[ImportedFromInstance] = N''{DBNAME}''
+	SET IDENTITY_INSERT [{RESTORETARGET}].[dbo].[ContactHistoryItem] OFF
+	'	
+	SET @SQL_SCRIPT = REPLACE(@TEMPLATE, '{RESTORETARGET}', @restoreTarget)
+	SET @SQL_SCRIPT = REPLACE(@SQL_SCRIPT, '{WAREHOUSE}', (SELECT TOP 1 TABLE_CATALOG FROM INFORMATION_SCHEMA.COLUMNS))
+	SET @SQL_SCRIPT = REPLACE(@SQL_SCRIPT, '{DBNAME}', @instaceImportedFrom)
 	EXECUTE (@SQL_SCRIPT)
 END
 GO

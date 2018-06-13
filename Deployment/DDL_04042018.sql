@@ -171,7 +171,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[LeadPackage](
-	[Id] [int] NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[PackageId] [int] NOT NULL,
 	[LeadId] [int] NOT NULL,
 	[Deleted] [bit] NOT NULL,

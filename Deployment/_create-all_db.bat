@@ -6,5 +6,6 @@ powershell -executionpolicy bypass -File .\powershell-scripts\create-database.ps
 .\Filler\FillDataGenerator.exe instance_two
 powershell -executionpolicy bypass -File .\powershell-scripts\create-warehouse.ps1 -databaseName data_warehouse_crmdb
 powershell -executionpolicy bypass -File .\powershell-scripts\create-database.ps1 -databaseName restored_instance_crmdb -dontFillData yes
+powershell -executionpolicy bypass -File .\powershell-scripts\create-viewdb.ps1 -databaseName view_crmdb
 echo Done.
 pause
